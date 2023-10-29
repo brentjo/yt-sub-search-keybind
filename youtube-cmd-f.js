@@ -16,49 +16,16 @@ document.body.addEventListener("keydown", function (event) {
         if (transcriptPaneNodes.length != 1) return;
         if (transcriptPaneNodes[0].getAttribute("visibility") != "ENGAGEMENT_PANEL_VISIBILITY_HIDDEN") return;
 
-        // Find the the elements to click that will open the transcript ("..." button -> "Show transcript")
-        const primaryVideoInfoNode = document.querySelectorAll("ytd-menu-renderer.ytd-video-primary-info-renderer")
-        if (primaryVideoInfoNode.length != 1) {
-            console.error(UNEXPECTED_PAGE_STRUCTURE_ERR_MSG)
+        // Find the 'Show transcript' button within the ytd-button-renderer element
+        const outerYtdButtonRenderer = document.querySelector('ytd-button-renderer.ytd-video-description-transcript-section-renderer')
+        if (!outerYtdButtonRenderer) {
+            console.error(UNEXPECTED_PAGE_STRUCTURE_ERR_MSG);
             return;
         }
 
-        const moreActionsNode = primaryVideoInfoNode[0].querySelectorAll("yt-icon-button.dropdown-trigger.ytd-menu-renderer")[0]
-        if (!moreActionsNode || moreActionsNode.children.length != 2 || (moreActionsNode.children > 0 && moreActionsNode.children[0].getAttribute("aria-label") != "More actions")) {
-            console.error(UNEXPECTED_PAGE_STRUCTURE_ERR_MSG)
-            return;
+        const showTranscriptButton = outerYtdButtonRenderer.querySelector('button:only-child')
+        if(showTranscriptButton && showTranscriptButton.innerText == "Show transcript"){
+            showTranscriptButton.click();
         }
-
-        moreActionsNode.click();
-
-        // Wait until the "Show transcript" button is ready to click
-        const msPollDuration = 20;
-        let msSpentWaiting = 0;
-        const checkButtonExistsInterval = setInterval(function () {
-            msSpentWaiting += msPollDuration;
-
-            if (msSpentWaiting > 1000) {
-                clearInterval(checkButtonExistsInterval);
-                return;
-            }
-
-            if (document.querySelectorAll("ytd-menu-service-item-renderer").length > 0) {
-                clearInterval(checkButtonExistsInterval);
-                const moreActionNodes = document.querySelectorAll("ytd-menu-service-item-renderer");
-
-                if (moreActionNodes.length == 0) {
-                    console.error(UNEXPECTED_PAGE_STRUCTURE_ERR_MSG);
-                    return;
-                }
-
-                for (const actionNode of moreActionNodes) {
-                    if (actionNode.innerText == "Show transcript") {
-                        actionNode.click();
-                        break;
-                    }
-                }
-
-            }
-        }, msPollDuration);
     }
 });

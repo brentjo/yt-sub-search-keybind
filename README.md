@@ -1,12 +1,8 @@
 # yt-sub-search-keybind
 
-A Chrome extension for YouTube to have cmd/ctrl + F automatically open the subtitle pane. This way, your browser page search hops right into searching for a term within the subtitles of the video.
+A Chrome extension for YouTube to have cmd/ctrl + F automatically open the transcript pane. This way, your browser page search hops right into searching for a term within the subtitles of the video.
 
 If you often find yourself manually opening up the subtitle pane so that you can cmd+F to jump to a spot in the video discussing a specific term, you might find this useful.
-
-### Example
-
-<img height=400 src="https://user-images.githubusercontent.com/6415223/188805937-f7550a8a-4d4d-4b8c-ada0-6fb34847864c.gif">
 
 ### Installation
 
